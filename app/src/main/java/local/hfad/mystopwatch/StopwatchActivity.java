@@ -16,6 +16,9 @@ public class StopwatchActivity extends Activity {
     private int seconds = 0;
     private boolean isRunning; // null (default)
     private boolean wasRunning; // null (default)
+    private View greenBulb = findViewById(R.id.green_bulb_view);
+    private View yellowBulb = findViewById(R.id.yellow_bulb_view);
+    private View redBulb = findViewById(R.id.red_bulb_view);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +42,9 @@ public class StopwatchActivity extends Activity {
         Log.i(this.getLocalClassName(), "is onStart()");
         Toast.makeText(this, "is onStart()", LENGTH_SHORT).show();
 
-        new Thread(new Runnable() {
-            final TextView  timeView = findViewById(R.id.time_view);
-
-            @Override
-            public void run() {
-                while(isRunning) {
-                    int hours = seconds / 3600;
-                    int mins = (seconds % 3600) / 60;
-                    int secs = seconds % 60;
-                    String time = String.format("%d:%02d:%02d", hours, mins, secs);
-                    timeView.setText(time);
-                    if (isRunning) {
-                        seconds++;
-                    }
-                }
-            }
-        }).start();
+        if(wasRunning) {
+            isRunning = true;
+        }
     }
 
     @Override
