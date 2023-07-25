@@ -25,8 +25,8 @@ public class StopwatchActivity extends Activity {
         Toast.makeText(this, "is onCreate()", LENGTH_SHORT).show();
 
         setContentView(R.layout.activity_stopwatch);
-//        runTimer();
-        if (savedInstanceState !=  null) {
+        runTimer();
+        if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
             isRunning = savedInstanceState.getBoolean("isRunning");
         }
@@ -124,7 +124,6 @@ public class StopwatchActivity extends Activity {
         if (!isRunning) {
             isRunning = true;
             startStopButton.setText(R.string.stop);
-            runTimer();
         } else {
             isRunning = false;
             startStopButton.setText(R.string.start);
@@ -143,26 +142,21 @@ public class StopwatchActivity extends Activity {
     private void runTimer() {
         TextView timeView = findViewById(R.id.time_view);
 
-        Thread t = new Thread(() -> {
-            Log.i(this.getLocalClassName(), "isRunning = " + isRunning);
-            while(isRunning) {
-                int hours = seconds / 3600;
-                int mins = (seconds % 3600) / 60;
-                int secs = seconds % 60;
-                String time = String.format("%d:%02d:%02d", hours, mins, secs);
-                timeView.setText(time);
-                seconds++;
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Log.i(this.getLocalClassName(), "is on another thread run()");
-                Toast.makeText(this, "is on another thread run()", LENGTH_SHORT).show();
-            }
-        });
-
-        t.start();
-
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+                         @Override
+                         public void run() {
+                             int hours = seconds / 3600;
+                             int mins = (seconds % 3600) / 60;
+                             int secs = seconds % 60;
+                             String time = String.format("%d:%02d:%02d", hours, mins, secs);
+                             timeView.setText(time);
+                             if (isRunning) {
+                                 seconds++;
+                             }
+                             handler.postDelayed(this, 1000);
+                         }
+                     }
+        );
     }
 }
