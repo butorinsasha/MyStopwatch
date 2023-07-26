@@ -20,7 +20,7 @@ public class StopwatchActivity extends Activity {
     private View yellowBulb;
     private View redBulb;
     Button startStopButton;
-    TextView timeView;
+//    TextView timeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +37,7 @@ public class StopwatchActivity extends Activity {
 
         startStopButton = findViewById(R.id.start_stop_button);
 
-        timeView = findViewById(R.id.time_view);
-
-        runTimer();
+//        runTimer();
 
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
@@ -150,6 +148,7 @@ public class StopwatchActivity extends Activity {
                 int secs = seconds % 60;
 
                 String time = String.format("%d:%02d:%02d", hours, mins, secs);
+                TextView timeView = findViewById(R.id.time_view);
                 timeView.setText(time);
 
                 Log.i(this.getLocalClassName(), "seconds=" + seconds);
@@ -183,7 +182,7 @@ public class StopwatchActivity extends Activity {
                 }
 
             }
-        });
+        }).start();
     }
 
     private void runTimer() {
