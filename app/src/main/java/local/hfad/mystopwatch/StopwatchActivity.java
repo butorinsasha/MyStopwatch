@@ -16,9 +16,11 @@ public class StopwatchActivity extends Activity {
     private int seconds = 0;
     private boolean isRunning; // null (default)
     private boolean wasRunning; // null (default)
-    private View greenBulb = findViewById(R.id.green_bulb_view);
-    private View yellowBulb = findViewById(R.id.yellow_bulb_view);
-    private View redBulb = findViewById(R.id.red_bulb_view);
+    private View greenBulb;
+    private View yellowBulb;
+    private View redBulb;
+    Button startStopButton;
+    TextView timeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,17 @@ public class StopwatchActivity extends Activity {
         Toast.makeText(this, "is onCreate()", LENGTH_SHORT).show();
 
         setContentView(R.layout.activity_stopwatch);
+
+        greenBulb = findViewById(R.id.green_bulb_view);
+        yellowBulb = findViewById(R.id.yellow_bulb_view);
+        redBulb = findViewById(R.id.red_bulb_view);
+
+        startStopButton = findViewById(R.id.start_stop_button);
+
+        timeView = findViewById(R.id.time_view);
+
         runTimer();
+
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
             isRunning = savedInstanceState.getBoolean("isRunning");
@@ -84,7 +96,6 @@ public class StopwatchActivity extends Activity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
-
         Log.i(this.getLocalClassName(), "is onSaveInstanceState()");
         Toast.makeText(this, "is onSaveInstanceState()", LENGTH_SHORT).show();
 
@@ -113,6 +124,7 @@ public class StopwatchActivity extends Activity {
         if (!isRunning) {
             isRunning = true;
             startStopButton.setText(R.string.stop);
+            runTrafficLight();
         } else {
             isRunning = false;
             startStopButton.setText(R.string.start);
@@ -128,6 +140,52 @@ public class StopwatchActivity extends Activity {
         seconds = 0;
     }
 
+    private void runTrafficLight() {
+        new Thread(() -> {
+            while(isRunning){
+                seconds++;
+
+                int hours = seconds / 3600;
+                int mins = (seconds % 3600) / 60;
+                int secs = seconds % 60;
+
+                String time = String.format("%d:%02d:%02d", hours, mins, secs);
+                timeView.setText(time);
+
+                Log.i(this.getLocalClassName(), "seconds=" + seconds);
+
+                switch (seconds/3){
+                    case (0):
+                        Log.i(this.getLocalClassName(), "Switch green");
+                        greenBulb.setBackgroundColor(getResources().getColor(R.color.green));
+                        yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                        redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                        break;
+                    case (1):
+                        Log.i(this.getLocalClassName(), "Switch yellow");
+
+                        greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                        yellowBulb.setBackgroundColor(getResources().getColor(R.color.yellow));
+                        redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                        break;
+                    case (2):
+                        Log.i(this.getLocalClassName(), "Switch red");
+                        greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                        yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                        redBulb.setBackgroundColor(getResources().getColor(R.color.red));
+                        break;
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
     private void runTimer() {
         TextView timeView = findViewById(R.id.time_view);
 
@@ -139,6 +197,7 @@ public class StopwatchActivity extends Activity {
                              int mins = (seconds % 3600) / 60;
                              int secs = seconds % 60;
                              String time = String.format("%d:%02d:%02d", hours, mins, secs);
+
                              timeView.setText(time);
                              if (isRunning) {
                                  seconds++;
