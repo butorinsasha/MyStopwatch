@@ -67,6 +67,9 @@ public class StopwatchActivity extends Activity {
         if(wasRunning){
             isRunning = true;
             startStopButton.setText(R.string.stop);
+        } else {
+            setTime(seconds);
+            lightBulb(seconds);
         }
     }
 
@@ -162,32 +165,42 @@ public class StopwatchActivity extends Activity {
                              if (isRunning) {
                                  Log.i(this.getClass().getName(), "isRunning = " + isRunning);
                                  setTime(seconds);
-                                 switch (seconds % 3){
-                                     case (0):
-                                         Log.i(this.toString(), "Switch green");
-                                         greenBulb.setBackgroundColor(getResources().getColor(R.color.green));
-                                         yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
-                                         redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
-                                         break;
-                                     case (1):
-                                         Log.i(this.getClass().getName(), "Switch yellow");
-                                         greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
-                                         yellowBulb.setBackgroundColor(getResources().getColor(R.color.yellow));
-                                         redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
-                                         break;
-                                     case (2):
-                                         Log.i(this.getClass().getName(), "Switch red");
-                                         greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
-                                         yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
-                                         redBulb.setBackgroundColor(getResources().getColor(R.color.red));
-                                         break;
-                                 }
-                                 seconds++;
+                                 lightBulb(seconds);
                              }
                              Log.i(this.getClass().getName(), "isRunning = " + isRunning);
                              handler.postDelayed(this, 1000);
                          }
                      }
         );
+    }
+
+    private void lightBulb(int seconds) {
+        if (seconds == 0) {
+            Log.i(this.toString(), "Switch green");
+            greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+            yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+            redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+        } else {
+            switch (seconds % 3){
+                case (1):
+                    Log.i(this.toString(), "Switch green");
+                    greenBulb.setBackgroundColor(getResources().getColor(R.color.green));
+                    yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                    redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                    break;
+                case (2):
+                    Log.i(this.getClass().getName(), "Switch yellow");
+                    greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                    yellowBulb.setBackgroundColor(getResources().getColor(R.color.yellow));
+                    redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                    break;
+                case (0):
+                    Log.i(this.getClass().getName(), "Switch red");
+                    greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                    yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
+                    redBulb.setBackgroundColor(getResources().getColor(R.color.red));
+                    break;
+            }
+        }
     }
 }
