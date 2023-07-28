@@ -40,6 +40,7 @@ public class StopwatchActivity extends Activity {
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
             isRunning = savedInstanceState.getBoolean("isRunning");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
         }
 
         runTimer();
@@ -87,6 +88,7 @@ public class StopwatchActivity extends Activity {
 
         savedInstanceState.putInt("seconds", seconds);
         savedInstanceState.putBoolean("isRunning", isRunning);
+        savedInstanceState.putBoolean("wasRunning", wasRunning);
     }
 
     @Override
