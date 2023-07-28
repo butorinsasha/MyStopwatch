@@ -18,7 +18,7 @@
         android:layout_marginTop="0dp"
         android:text="0:00:00"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="90sp"/>
+        android:textSize="90sp" />
 
     <View
         android:id="@+id/green_bulb_view"
@@ -35,7 +35,7 @@
         android:layout_height="75dp"
         android:layout_below="@+id/time_view"
         android:layout_centerHorizontal="true"
-        android:background="@color/grey"/>
+        android:background="@color/grey" />
 
     <View
         android:id="@+id/red_bulb_view"
@@ -52,21 +52,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/yellow_bulb_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/yellow_bulb_view"
+        android:layout_toStartOf="@+id/yellow_bulb_view"
+        android:layout_marginTop="10dp"
         android:onClick="onClickStartStop"
-        android:text="@string/start"/>
+        android:text="@string/start" />
 
     <Button
         android:id="@+id/reset_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/start_stop_button"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/yellow_bulb_view"
+        android:layout_toRightOf="@+id/yellow_bulb_view"
+        android:layout_toEndOf="@+id/yellow_bulb_view"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:onClick="onClickReset"
-        android:text="@string/reset"/>
+        android:text="@string/reset" />
 
 
 </RelativeLayout>
