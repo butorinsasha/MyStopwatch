@@ -15,7 +15,6 @@ public class StopwatchActivity extends Activity {
 
     private int seconds = 0;
     private boolean isRunning; // false (default)
-    private boolean wasRunning; // false (default)
     private View greenBulb;
     private View yellowBulb;
     private View redBulb;
@@ -34,27 +33,15 @@ public class StopwatchActivity extends Activity {
         greenBulb = findViewById(R.id.green_bulb_view);
         yellowBulb = findViewById(R.id.yellow_bulb_view);
         redBulb = findViewById(R.id.red_bulb_view);
-
         startStopButton = findViewById(R.id.start_stop_button);
         timeView = findViewById(R.id.time_view);
-
-
-        Log.i(this.getClass().getName(), "1. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "2. isRunning = " + isRunning);
 
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
             isRunning = savedInstanceState.getBoolean("isRunning");
-            wasRunning = savedInstanceState.getBoolean("wasRunning");
         }
 
-        Log.i(this.getClass().getName(), "3. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "4. isRunning = " + isRunning);
-
         runTimer();
-
-        Log.i(this.getClass().getName(), "5. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "6. isRunning = " + isRunning);
     }
 
     @Override
@@ -63,15 +50,6 @@ public class StopwatchActivity extends Activity {
 
         Log.i(this.getLocalClassName(), "is onStart()");
         Toast.makeText(this, "is onStart()", LENGTH_SHORT).show();
-        if(wasRunning) {
-            Log.i(this.getClass().getName(), "7. wasRunning = " + wasRunning);
-            Log.i(this.getClass().getName(), "8. isRunning = " + isRunning);
-
-            isRunning = true;
-
-            Log.i(this.getClass().getName(), "9. wasRunning = " + wasRunning);
-            Log.i(this.getClass().getName(), "10. isRunning = " + isRunning);
-        }
     }
 
     @Override
@@ -81,15 +59,6 @@ public class StopwatchActivity extends Activity {
         Log.i(this.getLocalClassName(), "is onResume()");
         Toast.makeText(this, "is onResume()", LENGTH_SHORT).show();
 
-        Log.i(this.getClass().getName(), "11. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "12. isRunning = " + isRunning);
-
-        if (wasRunning) {
-            isRunning = true;
-        }
-
-        Log.i(this.getClass().getName(), "13. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "14. isRunning = " + isRunning);
     }
 
     @Override
@@ -98,36 +67,10 @@ public class StopwatchActivity extends Activity {
 
         Log.i(this.getLocalClassName(), "is onPause()");
         Toast.makeText(this, "is onPause()", LENGTH_SHORT).show();
-
-        Log.i(this.getClass().getName(), "15. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "isRunning = " + isRunning);
-
-        wasRunning = isRunning;
-        isRunning = false;
-
-        Log.i(this.getClass().getName(), "16. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "17. isRunning = " + isRunning);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.i(this.getClass().getName(), "18. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "19. isRunning = " + isRunning);
-
-        wasRunning = isRunning;
-        isRunning = false;
-
-        Log.i(this.getClass().getName(), "20. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "21. isRunning = " + isRunning);
-
-        Log.i(this.getLocalClassName(), "is onStop()");
-        Toast.makeText(this, "is onStop()", LENGTH_SHORT).show();
     }
 
     // If onStop() is called because the activity’s going to be destroyed, onSaveInstanceState() gets called before onStop().
-    // ^ Tested: onSaveInstanceState() is called after onStop()
+    // ^ Tested: onSaveInstanceState() is called before onStop()
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -135,16 +78,16 @@ public class StopwatchActivity extends Activity {
         Log.i(this.getLocalClassName(), "is onSaveInstanceState()");
         Toast.makeText(this, "is onSaveInstanceState()", LENGTH_SHORT).show();
 
-
-        Log.i(this.getClass().getName(), "22. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "23. isRunning = " + isRunning);
-
         savedInstanceState.putInt("seconds", seconds);
         savedInstanceState.putBoolean("isRunning", isRunning);
-        savedInstanceState.putBoolean("wasRunning", wasRunning);
+    }
 
-        Log.i(this.getClass().getName(), "24. wasRunning = " + wasRunning);
-        Log.i(this.getClass().getName(), "25. isRunning = " + isRunning);
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.i(this.getLocalClassName(), "is onStop()");
+        Toast.makeText(this, "is onStop()", LENGTH_SHORT).show();
     }
 
     @Override
@@ -166,11 +109,9 @@ public class StopwatchActivity extends Activity {
     public void onClickStartStop(View view) {
         Log.i(this.getLocalClassName(), "At the start of onClickStartStop(); isRunning=" + isRunning);
         if (!isRunning) {
-            Log.i(this.getLocalClassName(), "at if");
             isRunning = true;
             startStopButton.setText(R.string.stop);
         } else {
-            Log.i(this.getLocalClassName(), "at else");
             isRunning = false;
             startStopButton.setText(R.string.start);
         }
@@ -185,12 +126,11 @@ public class StopwatchActivity extends Activity {
         isRunning = false;
         seconds = 0;
         setTime(seconds);
+        startStopButton.setText(R.string.start);
         greenBulb.setBackgroundColor(getResources().getColor(R.color.grey));
         yellowBulb.setBackgroundColor(getResources().getColor(R.color.grey));
         redBulb.setBackgroundColor(getResources().getColor(R.color.grey));
     }
-
-
 
     private void setTime(int seconds) {
         int hours = seconds / 3600;
