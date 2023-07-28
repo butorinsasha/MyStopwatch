@@ -43,6 +43,9 @@ public class StopwatchActivity extends Activity {
             wasRunning = savedInstanceState.getBoolean("wasRunning");
         }
 
+        Log.i(this.getLocalClassName(), "isRunning = " + isRunning);
+        Log.i(this.getLocalClassName(), "wasRunning = " + wasRunning);
+
         runTimer();
     }
 
@@ -63,6 +66,7 @@ public class StopwatchActivity extends Activity {
 
         if(wasRunning){
             isRunning = true;
+            startStopButton.setText(R.string.stop);
         }
     }
 
