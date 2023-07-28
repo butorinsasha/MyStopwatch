@@ -163,6 +163,7 @@ public class StopwatchActivity extends Activity {
                          public void run() {
                              Log.i(this.getClass().getName(), "is in run() of runTimer()");
                              if (isRunning) {
+                                 seconds++;
                                  Log.i(this.getClass().getName(), "isRunning = " + isRunning);
                                  setTime(seconds);
                                  lightBulb(seconds);
