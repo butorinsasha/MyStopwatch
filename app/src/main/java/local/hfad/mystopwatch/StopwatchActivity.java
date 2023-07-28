@@ -15,6 +15,7 @@ public class StopwatchActivity extends Activity {
 
     private int seconds = 0;
     private boolean isRunning; // false (default)
+    private boolean wasRunning; // false (default)
     private View greenBulb;
     private View yellowBulb;
     private View redBulb;
@@ -59,6 +60,9 @@ public class StopwatchActivity extends Activity {
         Log.i(this.getLocalClassName(), "is onResume()");
         Toast.makeText(this, "is onResume()", LENGTH_SHORT).show();
 
+        if(wasRunning){
+            isRunning = true;
+        }
     }
 
     @Override
@@ -67,6 +71,9 @@ public class StopwatchActivity extends Activity {
 
         Log.i(this.getLocalClassName(), "is onPause()");
         Toast.makeText(this, "is onPause()", LENGTH_SHORT).show();
+
+        wasRunning = isRunning;
+        isRunning = false;
     }
 
     // If onStop() is called because the activity’s going to be destroyed, onSaveInstanceState() gets called before onStop().
