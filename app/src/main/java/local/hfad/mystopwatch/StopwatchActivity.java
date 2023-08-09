@@ -22,6 +22,8 @@ public class StopwatchActivity extends Activity {
     Button startStopButton;
     TextView timeView;
 
+//  "MAY BE OVERRIDEN" ACTIVITY METHODS ARE BELOW:
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,15 +65,16 @@ public class StopwatchActivity extends Activity {
 
         Log.i(this.getLocalClassName(), "is onStart()");
         Toast.makeText(this, "is onStart()", LENGTH_SHORT).show();
+
+        Log.i(this.getClass().getName(), "7. wasRunning = " + wasRunning);
+        Log.i(this.getClass().getName(), "8. isRunning = " + isRunning);
+
         if(wasRunning) {
-            Log.i(this.getClass().getName(), "7. wasRunning = " + wasRunning);
-            Log.i(this.getClass().getName(), "8. isRunning = " + isRunning);
-
             isRunning = true;
-
-            Log.i(this.getClass().getName(), "9. wasRunning = " + wasRunning);
-            Log.i(this.getClass().getName(), "10. isRunning = " + isRunning);
         }
+
+        Log.i(this.getClass().getName(), "9. wasRunning = " + wasRunning);
+        Log.i(this.getClass().getName(), "10. isRunning = " + isRunning);
     }
 
     @Override
@@ -151,17 +154,33 @@ public class StopwatchActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
 
+        Log.i(this.getClass().getName(), "26. wasRunning = " + wasRunning);
+        Log.i(this.getClass().getName(), "27. isRunning = " + isRunning);
+
         Log.i(this.getLocalClassName(), "is onRestart()");
         Toast.makeText(this, "is onRestart()", LENGTH_SHORT).show();
+
+        Log.i(this.getClass().getName(), "28. wasRunning = " + wasRunning);
+        Log.i(this.getClass().getName(), "29. isRunning = " + isRunning);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+        Log.i(this.getClass().getName(), "30. wasRunning = " + wasRunning);
+        Log.i(this.getClass().getName(), "31. isRunning = " + isRunning);
+
         Log.i(this.getLocalClassName(), "is onDestroy()");
         Toast.makeText(this, "is onDestroy()", LENGTH_SHORT).show();
+
+        Log.i(this.getClass().getName(), "32. wasRunning = " + wasRunning);
+        Log.i(this.getClass().getName(), "33. isRunning = " + isRunning);
     }
+
+
+
+//  MyStopwatchActivity METHODS BELOW
 
     public void onClickStartStop(View view) {
         Log.i(this.getLocalClassName(), "At the start of onClickStartStop(); isRunning=" + isRunning);
