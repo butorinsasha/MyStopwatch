@@ -96,8 +96,7 @@ public class StopwatchActivity extends Activity {
         isRunning = false;
     }
 
-    // If onStop() is called because the activity’s going to be destroyed, onSaveInstanceState() gets called before onStop().
-    // ^ Tested: onSaveInstanceState() is called before onStop()
+    // If onStop() is called because the activity’s going to be destroyed, onSaveInstanceState() gets called after onStop() and before onDestroy().
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -142,6 +141,7 @@ public class StopwatchActivity extends Activity {
         Log.i(this.getLocalClassName(), "is onDestroy()");
         Toast.makeText(this, "is onDestroy()", LENGTH_SHORT).show();
 
+        // Why these two lines are not printed to logcat?
         Log.i(this.getClass().getName(), "32. wasRunning = " + wasRunning);
         Log.i(this.getClass().getName(), "33. isRunning = " + isRunning);
     }
