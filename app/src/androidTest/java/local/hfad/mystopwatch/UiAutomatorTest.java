@@ -4,6 +4,8 @@ package local.hfad.mystopwatch;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 
+import android.util.Log;
+
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.uiautomator.By;
@@ -16,7 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class StopWatchUiTest {
+public class UiAutomatorTest {
     @Rule
     public ActivityScenarioRule<StopwatchActivity> rule = new ActivityScenarioRule<>(StopwatchActivity.class);
 
@@ -33,13 +35,13 @@ public class StopWatchUiTest {
         UiObject2 stopButtonUiObject2 = device.findObject(By.res(TARGET_PACKAGE, "start_stop_button"));
         stopButtonUiObject2.click();
 
-        UiObject2 timeViewUiObject2 = device.findObject(By.res(TARGET_PACKAGE, "time_view"));
+        UiObject2 timeViewUiObject2 = device.findObject(By.res("local.hfad.mystopwatch:id/time_view"));
         timeViewUiObject2.wait(Until.textMatches(TIME_MATCH), TIME_MATCHES_TIMEOUT);
 
         stopButtonUiObject2.click();
 
         assertEquals(timeViewUiObject2.getText(), TIME_MATCH);
 
-        System.out.println("TARGET_PACKAGE =" + TARGET_PACKAGE);
+        Log.i(this.getClass().getName(), "TARGET_PACKAGE =" + TARGET_PACKAGE);
     }
 }
