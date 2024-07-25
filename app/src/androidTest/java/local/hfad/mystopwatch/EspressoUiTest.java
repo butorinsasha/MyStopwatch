@@ -17,7 +17,7 @@ public class EspressoUiTest {
     @Rule
     public ActivityScenarioRule<StopwatchActivity> rule = new ActivityScenarioRule<>(StopwatchActivity.class);
 
-    private final long TIME_MATCHES_TIMEOUT = 11000L;
+    private final long TIME_MATCHES_TIMEOUT = 11L;
 
     private final String TIME_MATCH = "0:00:10";
 
